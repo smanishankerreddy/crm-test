@@ -874,10 +874,10 @@
         <section class="hero-section">
             <div class="hero-title-area">
                 <div class="tag-label">
-                    <span>&bull;</span> Official Student Admission Portal
+                    <span>&bull;</span> Official V-SAT 2027 Portal
                 </div>
                 <h1 class="hero-title">
-                    Vignan University <br><span class="hero-title-gradient">Student Admission Portal</span>
+                    Vignan University <br><span class="hero-title-gradient">V-SAT 2027 Portal</span>
                 </h1>
                 <p class="hero-desc">
                     Welcome prospective and enrolled candidates! Track your admission application, verify certificates, check program allotment, and complete enrollment onboarding.

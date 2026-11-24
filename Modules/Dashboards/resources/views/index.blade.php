@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Admission Onboarding Portal | VFSTR Vignan University</title>
+    <title>V-SAT 2027 Portal | VFSTR Vignan University</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" type="image/png" href="/images/vignan-shield-clean.png">
 
@@ -2183,7 +2183,7 @@
                 <div class="brand-title-wrap">
                     <div style="display:flex; align-items:center; gap:0.45rem; flex-wrap:nowrap;">
                         <span class="brand-name-main">VIGNAN'S</span>
-                        <span class="brand-tag">Student Portal</span>
+                        <span class="brand-tag">V-SAT 2027 Portal</span>
                     </div>
                     <span class="brand-accred-sub">DEEMED TO BE UNIVERSITY &bull; NAAC A+</span>
                 </div>
@@ -2232,7 +2232,7 @@
                     </h1>
                     <span class="welcome-pill">
                         <span class="welcome-dot"></span>
-                        <span>Academic Year {{ \Modules\Crm\Models\CrmStudentRegistration::getAcademicYearInfo()['academic_year_short'] }}</span>
+                        <span>Academic Year 2027</span>
                     </span>
                 </div>
                 <p class="welcome-subtitle">
@@ -2806,14 +2806,18 @@
                                     </div>
                                 </div>
 
-                                <!-- Row 2: City, State, District (3 Columns) -->
-                                <div class="mockup-field-row-3" style="margin-top: 0.85rem;">
+                                <!-- Row 2: Campus Location, Campus City, Campus State, Campus District (4 Columns) -->
+                                <div class="mockup-field-row-4" style="margin-top: 0.85rem;">
                                     <div class="mockup-field-group">
-                                        <label class="mockup-label">City: <span class="req-inter" style="color:#ef4444;">*</span></label>
-                                        <input type="text" name="city" id="inter_city" class="mockup-input" value="{{ $academicDetails?->city ?? $academicDetails?->pu2_college_city }}" placeholder="Enter College City">
+                                        <label class="mockup-label">Campus Location: <span style="font-size: 0.72rem; color: #64748b; font-weight: 500;">(Optional)</span></label>
+                                        <input type="text" name="inter_campus_location" id="inter_campus_location" class="mockup-input" value="{{ $academicDetails?->pu2_campus_location }}" placeholder="Enter Campus Location">
                                     </div>
                                     <div class="mockup-field-group">
-                                        <label class="mockup-label">State: <span class="req-inter" style="color:#ef4444;">*</span></label>
+                                        <label class="mockup-label">Campus City: <span class="req-inter" style="color:#ef4444;">*</span></label>
+                                        <input type="text" name="city" id="inter_city" class="mockup-input" value="{{ $academicDetails?->city ?? $academicDetails?->pu2_college_city }}" placeholder="Enter Campus City">
+                                    </div>
+                                    <div class="mockup-field-group">
+                                        <label class="mockup-label">Campus State: <span class="req-inter" style="color:#ef4444;">*</span></label>
                                         <select name="jr_state" id="geo-inter-state-select" class="mockup-select" onchange="onInterStateChange(this.value)">
                                             <option value="">-- Select State --</option>
                                             @foreach(($academicStates ?? $states) as $s)
@@ -2828,7 +2832,7 @@
                                         </select>
                                     </div>
                                     <div class="mockup-field-group">
-                                        <label class="mockup-label">District: <span class="req-inter" style="color:#ef4444;">*</span></label>
+                                        <label class="mockup-label">Campus District: <span class="req-inter" style="color:#ef4444;">*</span></label>
                                         <select name="jr_district" id="geo-inter-district-select" class="mockup-select">
                                             <option value="">-- Select District --</option>
                                             @foreach($districts as $d)
@@ -5985,7 +5989,7 @@
                 &copy; 2026 VFSTR &bull; Vignan's Foundation for Science, Technology &amp; Research (Deemed to be University). All rights reserved.
             </div>
             <div>
-                Student Admission Portal &bull; <a href="https://vignan.ac.in" target="_blank">Official University Site</a>
+                V-SAT 2027 Portal &bull; <a href="https://vignan.ac.in" target="_blank">Official University Site</a>
             </div>
         </div>
     </footer>
@@ -6645,7 +6649,7 @@
                         <div class="terms-card-row row-green">
                             <div class="terms-badge-pill badge-green">2</div>
                             <div class="terms-row-content">
-                                I agree to abide by all the academic rules, codes of conduct, fee regulations, and attendance policies of VFSTR Vignan University for the academic year {{ \Modules\Crm\Models\CrmStudentRegistration::getAcademicYearInfo()['academic_year_short'] }}.
+                                I agree to abide by all the academic rules, codes of conduct, fee regulations, and attendance policies of VFSTR Vignan University.
                             </div>
                         </div>
 

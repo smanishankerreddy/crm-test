@@ -39,6 +39,7 @@ class StudentAcademicDetail extends Model
 
         // 12th / PUC / Diploma
         'pu2_college_name',
+        'pu2_campus_location',
         'pu2_study_board',
         'pu2_board_of_study',
         'pu2_college_city',

@@ -41,6 +41,7 @@ class AppServiceProvider extends ServiceProvider
                 \Illuminate\Support\Facades\DB::statement("ALTER TABLE finance.couponinfo ADD COLUMN IF NOT EXISTS couponsno VARCHAR(50);");
                 \Illuminate\Support\Facades\DB::statement("ALTER TABLE finance.couponinfo ADD COLUMN IF NOT EXISTS coupcount INT DEFAULT 1;");
                 \Illuminate\Support\Facades\DB::statement("ALTER TABLE finance.couponinfo ADD COLUMN IF NOT EXISTS coupcurrcount INT DEFAULT 0;");
+                \Illuminate\Support\Facades\DB::statement("ALTER TABLE crm.student_academic_details ADD COLUMN IF NOT EXISTS pu2_campus_location VARCHAR(255);");
             } catch (\Throwable $e) {}
         }
     }
