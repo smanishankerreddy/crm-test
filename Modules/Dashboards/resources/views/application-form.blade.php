@@ -1128,7 +1128,7 @@
         <tr>
             <td style="padding: 18px 24px; vertical-align: top; width: 50%;">
                 <div style="background: #ffffff; border-radius: 8px; padding: 6px 12px; display: inline-block;">
-                    <img src="{{ $logo }}" alt="Vignan's Logo" style="height: 56px; max-width: 220px; object-fit: contain; display: block;">
+                    <img src="{{ $logo }}" alt="Vignan's Logo" style="height: 52px; width: auto; max-width: 220px; display: block;">
                 </div>
                 <div style="color: #A9BCD6; font-size: 9px; padding-top: 8px;">
                     Application date: {{ ($student->applied_at ?? null) ?? now()->format('d/m/Y') }} &nbsp;|&nbsp; admissions.vignan.ac.in
@@ -1169,11 +1169,8 @@
                         </div>
                     </td>
                     <td style="padding: 10px 14px; vertical-align: middle; text-align: right;">
-                        <span style="display: inline-block; font-size: 8.5px; font-weight: 800; padding: 4px 10px; border-radius: 10px; margin-bottom: 4px; color: #12875B; background: #E2F5EC; border: 1px solid #a7f3d0;">
+                        <span style="display: inline-block; font-size: 8.5px; font-weight: 800; padding: 4px 10px; border-radius: 10px; color: #12875B; background: #E2F5EC; border: 1px solid #a7f3d0;">
                             PAYMENT {{ strtoupper($student->payment_status ?? 'COMPLETED') }}
-                        </span><br>
-                        <span style="display: inline-block; font-size: 8.5px; font-weight: 800; padding: 4px 10px; border-radius: 10px; color: #B25E09; background: #FDF0DC; border: 1px solid #fde68a;">
-                            PROVISIONAL SEAT ALLOTMENT
                         </span>
                     </td>
                 </tr>
@@ -1508,7 +1505,7 @@
         <div style="background: #FFF8EA; border: 1px solid #F2DDB0; border-left: 4px solid #B25E09; border-radius: 10px; padding: 9px 14px; margin-top: 10px; font-size: 9.5px; line-height: 1.5; color: #1B2430;">
             <strong style="color: #B25E09; letter-spacing: 0.4px;">INSTRUCTIONS &amp; DECLARATION</strong>
             <ul style="margin: 3px 0 0; padding-left: 14px;">
-                <li>This is a provisional seat allotment. Original certificates must be presented at the time of campus verification.</li>
+                <li>Original certificates must be presented at the time of campus verification.</li>
                 <li>Tuition fee, merit scholarships, and entrance test criteria are governed by university admissions norms.</li>
                 <li>I hereby declare that all entries made in this application are authentic and true to the best of my knowledge.</li>
             </ul>

@@ -25,8 +25,8 @@ class ApplicationController extends Controller
         $student = $this->buildStudentApplicationData($id);
         $viewName = view()->exists('dashboards::application-form') ? 'dashboards::application-form' : 'application-form';
 
-        $logoPath = public_path('images/vignan-logo.png');
-        $logoBase64 = is_file($logoPath) ? ('data:image/png;base64,' . base64_encode((string) file_get_contents($logoPath))) : asset('images/vignan-logo.png');
+        $logoPath = public_path('images/vignan-banner-logo.jpg');
+        $logoBase64 = is_file($logoPath) ? ('data:image/jpeg;base64,' . base64_encode((string) file_get_contents($logoPath))) : asset('images/vignan-banner-logo.jpg');
 
         return view($viewName, [
             'student' => $student,
@@ -49,8 +49,8 @@ class ApplicationController extends Controller
 
         if (class_exists(\Barryvdh\DomPDF\Facade\Pdf::class)) {
             try {
-                $logoPath = public_path('images/vignan-logo.png');
-                $logoBase64 = is_file($logoPath) ? ('data:image/png;base64,' . base64_encode((string) file_get_contents($logoPath))) : asset('images/vignan-logo.png');
+                $logoPath = public_path('images/vignan-banner-logo.jpg');
+                $logoBase64 = is_file($logoPath) ? ('data:image/jpeg;base64,' . base64_encode((string) file_get_contents($logoPath))) : asset('images/vignan-banner-logo.jpg');
 
                 $filename = 'Application_Form_' . ($student->id ?: 'VU') . '_' . preg_replace('/[^A-Za-z0-9_-]/', '_', $student->name ?: 'Candidate') . '.pdf';
                 return \Barryvdh\DomPDF\Facade\Pdf::loadView($viewName, [
@@ -75,7 +75,7 @@ class ApplicationController extends Controller
 
         return view($viewName, [
             'student' => $student,
-            'logo' => asset('images/vignan-logo.png'),
+            'logo' => is_file(public_path('images/vignan-banner-logo.jpg')) ? ('data:image/jpeg;base64,' . base64_encode((string) file_get_contents(public_path('images/vignan-banner-logo.jpg')))) : asset('images/vignan-banner-logo.jpg'),
             'downloadUrl' => route('application.download', ['id' => $id]),
             'autoPrint' => false,
         ]);
