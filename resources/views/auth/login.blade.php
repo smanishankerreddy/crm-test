@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Admission Portal | VFSTR Vignan University</title>
+    <title>V-SAT 2027 Portal | VFSTR Vignan University</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" type="image/png" href="/images/vignan-logo.png">
 
@@ -377,6 +377,23 @@
             flex-direction: column;
             align-items: center;
             gap: 0.25rem;
+        }
+
+        .card-banner-logo-box {
+            width: 100%;
+            max-width: 270px;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-banner-logo-box img {
+            width: 100%;
+            height: auto;
+            max-height: 80px;
+            object-fit: contain;
+            display: block;
         }
 
         .crest-icon-box {
@@ -1042,14 +1059,12 @@
         <div class="login-card-wrapper">
             <div class="login-card">
 
-                <!-- Card Header with Official Vignan Logo -->
+                <!-- Card Header with Given Vignan Logo & Portal Heading -->
                 <div class="card-logo-area">
-                    <div class="crest-icon-box">
-                        <img src="/images/vignan-logo.png" alt="Vignan University Crest">
+                    <div class="card-banner-logo-box">
+                        <img src="{{ asset('images/vignan-banner-logo.jpg') }}" alt="Vignan's Foundation for Science, Technology & Research">
                     </div>
-                    <div class="crest-subtext">&bull; VFSTR &bull; VIGNAN UNIVERSITY</div>
-                    <h2 class="card-heading">Student Admission <span>Portal</span></h2>
-                    <p class="card-subtitle">Enter your registered mobile number to check admission status &amp; proceed.</p>
+                    <h2 class="card-heading">V-SAT 2027 <span>Portal</span></h2>
                 </div>
 
                 <!-- Status & Error Messages -->
