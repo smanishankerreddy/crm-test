@@ -4,7 +4,7 @@
     Engineered for pixel-perfect browser printing and DomPDF download engine.
 --}}
 @php
-    $logo = $logo ?? asset('images/vignan-logo.png');
+    $logo = $logo ?? asset('images/vignan-banner-logo.jpg');
 
     $progUpper = strtoupper(trim((string)($student->program ?? '')));
     $levelUpper = strtoupper(trim((string)($student->degree_level ?? '')));
@@ -1128,7 +1128,7 @@
         <tr>
             <td style="padding: 18px 24px; vertical-align: top; width: 50%;">
                 <div style="background: #ffffff; border-radius: 8px; padding: 6px 12px; display: inline-block;">
-                    <img src="{{ $logo }}" alt="Vignan's Logo" style="height: 60px; max-width: 190px; object-fit: contain; display: block;">
+                    <img src="{{ $logo }}" alt="Vignan's Logo" style="height: 56px; max-width: 220px; object-fit: contain; display: block;">
                 </div>
                 <div style="color: #A9BCD6; font-size: 9px; padding-top: 8px;">
                     Application date: {{ ($student->applied_at ?? null) ?? now()->format('d/m/Y') }} &nbsp;|&nbsp; admissions.vignan.ac.in

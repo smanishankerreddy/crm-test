@@ -1174,7 +1174,7 @@
 
                 <!-- Clean Minimal Card Footer -->
                 <div class="card-footer">
-                    <div>&copy; 2026 Student Admission Portal</div>
+                    <div>&copy; 2026 V-SAT 2027 Portal</div>
                     <div class="card-footer-power">VFSTR Deemed to be University</div>
                 </div>
 
