@@ -1,7 +1,7 @@
 {{--
     resources/views/application-form.blade.php
     Official Vignan University Admission Information Form.
-    Pixel-perfect 1-page A4 layout for browser printing and DomPDF download engine.
+    Pixel-perfect, A4-optimized 1-page layout for browser printing and DomPDF engine.
 --}}
 @php
     $logo = $logo ?? (is_file(public_path('images/vignan-banner-logo.jpg'))
@@ -45,7 +45,7 @@
 <style>
     @page {
         size: A4 portrait;
-        margin: 5mm 6mm 5mm 6mm;
+        margin: 6mm 8mm 6mm 8mm;
     }
     *, *::before, *::after {
         box-sizing: border-box;
@@ -55,33 +55,51 @@
         padding: 0;
         width: 100%;
         background: {{ !empty($isPdf) ? '#ffffff' : '#f1f5f9' }};
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
         color: #0f172a;
         font-size: 10px;
-        line-height: 1.3;
+        line-height: 1.35;
         -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
     }
     .page-wrap {
         width: 100%;
-        max-width: 200mm;
-        margin: {{ !empty($isPdf) ? '0 auto' : '12px auto' }};
+        max-width: 194mm;
+        margin: {{ !empty($isPdf) ? '0 auto' : '14px auto' }};
         background: #ffffff;
         border: {{ !empty($isPdf) ? 'none' : '1px solid #cbd5e1' }};
-        box-shadow: {{ !empty($isPdf) ? 'none' : '0 10px 25px -5px rgba(0,0,0,0.1)' }};
-        border-radius: {{ !empty($isPdf) ? '0' : '8px' }};
+        box-shadow: {{ !empty($isPdf) ? 'none' : '0 8px 24px rgba(15,23,42,0.08)' }};
+        border-radius: {{ !empty($isPdf) ? '0' : '6px' }};
         overflow: hidden;
-        page-break-after: avoid;
         page-break-inside: avoid;
+        page-break-after: avoid;
     }
     table {
         border-collapse: collapse;
         width: 100%;
     }
+    .sec-card {
+        background: #ffffff;
+        border: 1px solid #E2E8F0;
+        border-radius: 6px;
+        padding: 8px 10px;
+        box-sizing: border-box;
+    }
+    .sec-title {
+        margin: 0 0 5px;
+        padding: 0 0 4px 6px;
+        font-size: 10px;
+        font-weight: 800;
+        letter-spacing: 0.3px;
+        text-transform: uppercase;
+        color: #0F2A4A;
+        border-left: 3px solid #1E7BD8;
+        border-bottom: 1px solid #E2E8F0;
+    }
     @media print {
         @page {
             size: A4 portrait;
-            margin: 4mm 6mm;
+            margin: 5mm 6mm;
         }
         body {
             background: #ffffff !important;
@@ -129,9 +147,9 @@
         <tr>
             <td style="padding: 10px 18px; vertical-align: middle; width: 50%;">
                 <div style="background: #ffffff; border-radius: 6px; padding: 4px 10px; display: inline-block;">
-                    <img src="{{ $logo }}" alt="Vignan's Logo" style="height: 42px; width: auto; max-width: 190px; display: block;">
+                    <img src="{{ $logo }}" alt="Vignan's Logo" style="height: 44px; width: auto; max-width: 195px; display: block;">
                 </div>
-                <div style="color: #A9BCD6; font-size: 8px; padding-top: 4px;">
+                <div style="color: #A9BCD6; font-size: 8px; padding-top: 4px; letter-spacing: 0.2px;">
                     Application date: {{ ($student->applied_at ?? null) ?? now()->format('d/m/Y') }} &nbsp;|&nbsp; admissions.vignan.ac.in
                 </div>
             </td>
@@ -145,10 +163,10 @@
         </tr>
     </table>
 
-    <div style="padding: 0 16px 10px 16px;">
+    <div style="padding: 0 16px 8px 16px;">
 
         {{-- Profile Strip --}}
-        <div style="background: #ffffff; border: 1px solid #E3E8EF; border-radius: 8px; margin-top: -10px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.03); position: relative; z-index: 2;">
+        <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 8px; margin-top: -10px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.03); position: relative; z-index: 2;">
             <table style="width: 100%; border-collapse: collapse; border: none; background: transparent;">
                 <tr>
                     <td style="padding: 6px 12px; width: 58px; vertical-align: middle;">
@@ -164,7 +182,7 @@
                     </td>
                     <td style="padding: 6px 12px; vertical-align: middle;">
                         <div style="font-size: 15px; font-weight: 800; color: #0F2A4A; line-height: 1.2;">{{ $student->name }}</div>
-                        <div style="color: #6B778A; font-size: 9.5px; line-height: 1.45; margin-top: 2px;">
+                        <div style="color: #64748b; font-size: 9.5px; line-height: 1.45; margin-top: 2px;">
                             {{ $student->email }} &nbsp;|&nbsp; {{ $student->phone }}<br>
                             Applicant ID: <strong style="color: #0F2A4A;">{{ $student->student_id }}</strong> (App #: {{ $student->id }})
                         </div>
@@ -179,10 +197,10 @@
         </div>
 
         {{-- Allotment & Examination Schedule Bar --}}
-        <table style="width: 100%; border-collapse: collapse; background: #ffffff; border: 1px solid #E3E8EF; border-radius: 8px; margin-top: 6px;">
+        <table style="width: 100%; border-collapse: collapse; background: #ffffff; border: 1px solid #E2E8F0; border-radius: 6px; margin-top: 6px;">
             <tr>
                 <td style="padding: 6px 10px; width: 33.33%; vertical-align: top;">
-                    <div style="font-size: 8px; font-weight: 700; color: #6B778A; text-transform: uppercase;">Allotted Program</div>
+                    <div style="font-size: 8px; font-weight: 700; color: #64748b; text-transform: uppercase;">Allotted Program</div>
                     <div style="font-size: 10.5px; font-weight: 800; color: #0F2A4A; margin-top: 1px;">
                         {{ $student->program ?: 'B.Tech - Bachelor of Technology' }}
                     </div>
@@ -190,17 +208,17 @@
                         <div style="font-size: 9px; color: #1E7BD8; font-weight: 700;">{{ $student->branch }}</div>
                     @endif
                 </td>
-                <td style="padding: 6px 10px; width: 33.33%; vertical-align: top; border-left: 1px solid #E3E8EF;">
-                    <div style="font-size: 8px; font-weight: 700; color: #6B778A; text-transform: uppercase;">Allotted Campus</div>
+                <td style="padding: 6px 10px; width: 33.33%; vertical-align: top; border-left: 1px solid #E2E8F0;">
+                    <div style="font-size: 8px; font-weight: 700; color: #64748b; text-transform: uppercase;">Allotted Campus</div>
                     <div style="font-size: 10.5px; font-weight: 800; color: #0F2A4A; margin-top: 1px;">
                         {{ $student->campus ?: 'Vignan Main Campus (Vadlamudi)' }}
                     </div>
                     <div style="font-size: 9px; color: #12875B; font-weight: 700;">Allotment Confirmed</div>
                 </td>
-                <td style="padding: 6px 10px; width: 33.33%; vertical-align: top; border-left: 1px solid #E3E8EF;">
+                <td style="padding: 6px 10px; width: 33.33%; vertical-align: top; border-left: 1px solid #E2E8F0;">
                     @if(($student->degree_level ?? '') !== 'phd')
                         <div>
-                            <div style="font-size: 8px; font-weight: 700; color: #6B778A; text-transform: uppercase;">Booked Entrance Exam Slot</div>
+                            <div style="font-size: 8px; font-weight: 700; color: #64748b; text-transform: uppercase;">Booked Entrance Exam Slot</div>
                             <div style="font-size: 10.5px; font-weight: 800; color: #0F2A4A; margin-top: 1px;">
                                 📅 {{ $student->exam_date ?: 'Stage 5 Scheduled' }}
                             </div>
@@ -208,7 +226,7 @@
                         </div>
                     @else
                         <div>
-                            <div style="font-size: 8px; font-weight: 700; color: #6B778A; text-transform: uppercase;">Entrance Examination</div>
+                            <div style="font-size: 8px; font-weight: 700; color: #64748b; text-transform: uppercase;">Entrance Examination</div>
                             <div style="font-size: 10.5px; font-weight: 800; color: #0F2A4A; margin-top: 1px;">
                                 Exempted / Direct Ph.D
                             </div>
@@ -224,37 +242,33 @@
             <tr>
                 <td style="width: 50%; padding-right: 4px; vertical-align: top;">
                     {{-- 1. PERSONAL & PARENT INFORMATION --}}
-                    <div style="background: #ffffff; border: 1px solid #E3E8EF; border-radius: 8px; padding: 7px 10px; box-sizing: border-box;">
-                        <div style="margin: 0 0 5px; padding: 0 0 4px 6px; font-size: 10px; font-weight: 800; letter-spacing: 0.3px; text-transform: uppercase; color: #0F2A4A; border-left: 3px solid #1E7BD8; border-bottom: 1px solid #E3E8EF;">
-                            1. Candidate &amp; Parent Details
-                        </div>
+                    <div class="sec-card">
+                        <div class="sec-title">1. Candidate &amp; Parent Details</div>
                         <table style="width: 100%; border-collapse: collapse; font-size: 9.5px;">
-                            <tr><td style="width: 38%; color: #6B778A; padding: 2px 0;">Candidate Name</td><td style="font-weight: 700; border-bottom: 1px solid #E3E8EF; padding: 2px 0;">{{ $student->name ?: 'N/A' }}</td></tr>
-                            <tr><td style="color: #6B778A; padding: 2px 0;">Father / Parent</td><td style="font-weight: 700; border-bottom: 1px solid #E3E8EF; padding: 2px 0;">{{ $student->parent_name ?: ($student->father_name ?: 'N/A') }}</td></tr>
-                            <tr><td style="color: #6B778A; padding: 2px 0;">Parent Contact</td><td style="font-weight: 700; border-bottom: 1px solid #E3E8EF; padding: 2px 0;">{{ $student->parent_phone ?: ($student->father_phone ?: 'N/A') }}</td></tr>
-                            <tr><td style="color: #6B778A; padding: 2px 0;">Candidate Phone</td><td style="font-weight: 700; border-bottom: 1px solid #E3E8EF; padding: 2px 0;">{{ $student->phone ?: 'N/A' }}</td></tr>
-                            <tr><td style="color: #6B778A; padding: 2px 0;">Email ID</td><td style="font-weight: 700; border-bottom: 1px solid #E3E8EF; padding: 2px 0; word-break: break-all;">{{ $student->email ?: 'N/A' }}</td></tr>
-                            <tr><td style="color: #6B778A; padding: 2px 0;">Date of Birth</td><td style="font-weight: 700; border-bottom: 1px solid #E3E8EF; padding: 2px 0;">{{ $dob }}</td></tr>
-                            <tr><td style="color: #6B778A; padding: 2px 0;">Gender</td><td style="font-weight: 700; border-bottom: 1px solid #E3E8EF; padding: 2px 0;">{{ $student->gender ?: 'N/A' }}</td></tr>
-                            <tr><td style="color: #6B778A; padding: 2px 0;">Category</td><td style="font-weight: 700; padding: 2px 0;">{{ $student->category ?: 'General' }}</td></tr>
+                            <tr><td style="width: 38%; color: #64748b; padding: 2px 0;">Candidate Name</td><td style="font-weight: 700; border-bottom: 1px solid #E2E8F0; padding: 2px 0;">{{ $student->name ?: 'N/A' }}</td></tr>
+                            <tr><td style="color: #64748b; padding: 2px 0;">Father / Parent</td><td style="font-weight: 700; border-bottom: 1px solid #E2E8F0; padding: 2px 0;">{{ $student->parent_name ?: ($student->father_name ?: 'N/A') }}</td></tr>
+                            <tr><td style="color: #64748b; padding: 2px 0;">Parent Contact</td><td style="font-weight: 700; border-bottom: 1px solid #E2E8F0; padding: 2px 0;">{{ $student->parent_phone ?: ($student->father_phone ?: 'N/A') }}</td></tr>
+                            <tr><td style="color: #64748b; padding: 2px 0;">Candidate Phone</td><td style="font-weight: 700; border-bottom: 1px solid #E2E8F0; padding: 2px 0;">{{ $student->phone ?: 'N/A' }}</td></tr>
+                            <tr><td style="color: #64748b; padding: 2px 0;">Email ID</td><td style="font-weight: 700; border-bottom: 1px solid #E2E8F0; padding: 2px 0; word-break: break-all;">{{ $student->email ?: 'N/A' }}</td></tr>
+                            <tr><td style="color: #64748b; padding: 2px 0;">Date of Birth</td><td style="font-weight: 700; border-bottom: 1px solid #E2E8F0; padding: 2px 0;">{{ $dob }}</td></tr>
+                            <tr><td style="color: #64748b; padding: 2px 0;">Gender</td><td style="font-weight: 700; border-bottom: 1px solid #E2E8F0; padding: 2px 0;">{{ $student->gender ?: 'N/A' }}</td></tr>
+                            <tr><td style="color: #64748b; padding: 2px 0;">Category</td><td style="font-weight: 700; padding: 2px 0;">{{ $student->category ?: 'General' }}</td></tr>
                         </table>
                     </div>
                 </td>
                 <td style="width: 50%; padding-left: 4px; vertical-align: top;">
                     {{-- 2. ADDRESS INFORMATION --}}
-                    <div style="background: #ffffff; border: 1px solid #E3E8EF; border-radius: 8px; padding: 7px 10px; box-sizing: border-box;">
-                        <div style="margin: 0 0 5px; padding: 0 0 4px 6px; font-size: 10px; font-weight: 800; letter-spacing: 0.3px; text-transform: uppercase; color: #0F2A4A; border-left: 3px solid #1E7BD8; border-bottom: 1px solid #E3E8EF;">
-                            2. Permanent &amp; Contact Address
-                        </div>
+                    <div class="sec-card">
+                        <div class="sec-title">2. Permanent &amp; Contact Address</div>
                         <table style="width: 100%; border-collapse: collapse; font-size: 9.5px;">
-                            <tr><td style="width: 38%; color: #6B778A; padding: 2px 0;">Door / Street</td><td style="font-weight: 700; border-bottom: 1px solid #E3E8EF; padding: 2px 0;">{{ $student->street ?: 'N/A' }}</td></tr>
-                            <tr><td style="color: #6B778A; padding: 2px 0;">Mandal / City</td><td style="font-weight: 700; border-bottom: 1px solid #E3E8EF; padding: 2px 0;">{{ $student->city ?: 'N/A' }}</td></tr>
-                            <tr><td style="color: #6B778A; padding: 2px 0;">District</td><td style="font-weight: 700; border-bottom: 1px solid #E3E8EF; padding: 2px 0;">{{ $student->district ?: 'N/A' }}</td></tr>
-                            <tr><td style="color: #6B778A; padding: 2px 0;">State</td><td style="font-weight: 700; border-bottom: 1px solid #E3E8EF; padding: 2px 0;">{{ $student->state ?: 'N/A' }}</td></tr>
-                            <tr><td style="color: #6B778A; padding: 2px 0;">Country</td><td style="font-weight: 700; border-bottom: 1px solid #E3E8EF; padding: 2px 0;">{{ $student->country ?: 'India' }}</td></tr>
-                            <tr><td style="color: #6B778A; padding: 2px 0;">PIN Code</td><td style="font-weight: 700; border-bottom: 1px solid #E3E8EF; padding: 2px 0;">{{ $student->pincode ?: 'N/A' }}</td></tr>
-                            <tr><td style="color: #6B778A; padding: 2px 0;">Admission Ref</td><td style="font-weight: 700; border-bottom: 1px solid #E3E8EF; padding: 2px 0;">#{{ $student->id }}</td></tr>
-                            <tr><td style="color: #6B778A; padding: 2px 0;">Student CRM ID</td><td style="font-weight: 700; padding: 2px 0;">{{ $student->student_id ?: 'N/A' }}</td></tr>
+                            <tr><td style="width: 38%; color: #64748b; padding: 2px 0;">Door / Street</td><td style="font-weight: 700; border-bottom: 1px solid #E2E8F0; padding: 2px 0;">{{ $student->street ?: 'N/A' }}</td></tr>
+                            <tr><td style="color: #64748b; padding: 2px 0;">Mandal / City</td><td style="font-weight: 700; border-bottom: 1px solid #E2E8F0; padding: 2px 0;">{{ $student->city ?: 'N/A' }}</td></tr>
+                            <tr><td style="color: #64748b; padding: 2px 0;">District</td><td style="font-weight: 700; border-bottom: 1px solid #E2E8F0; padding: 2px 0;">{{ $student->district ?: 'N/A' }}</td></tr>
+                            <tr><td style="color: #64748b; padding: 2px 0;">State</td><td style="font-weight: 700; border-bottom: 1px solid #E2E8F0; padding: 2px 0;">{{ $student->state ?: 'N/A' }}</td></tr>
+                            <tr><td style="color: #64748b; padding: 2px 0;">Country</td><td style="font-weight: 700; border-bottom: 1px solid #E2E8F0; padding: 2px 0;">{{ $student->country ?: 'India' }}</td></tr>
+                            <tr><td style="color: #64748b; padding: 2px 0;">PIN Code</td><td style="font-weight: 700; border-bottom: 1px solid #E2E8F0; padding: 2px 0;">{{ $student->pincode ?: 'N/A' }}</td></tr>
+                            <tr><td style="color: #64748b; padding: 2px 0;">Admission Ref</td><td style="font-weight: 700; border-bottom: 1px solid #E2E8F0; padding: 2px 0;">#{{ $student->id }}</td></tr>
+                            <tr><td style="color: #64748b; padding: 2px 0;">Student CRM ID</td><td style="font-weight: 700; padding: 2px 0;">{{ $student->student_id ?: 'N/A' }}</td></tr>
                         </table>
                     </div>
                 </td>
@@ -262,13 +276,13 @@
         </table>
 
         {{-- 3. QUALIFYING ACADEMIC RECORDS (FULL WIDTH TABLE) --}}
-        <div style="background: #ffffff; border: 1px solid #E3E8EF; border-radius: 8px; padding: 7px 10px; margin-top: 6px;">
-            <div style="margin: 0 0 5px; padding: 0 0 4px 6px; font-size: 10px; font-weight: 800; letter-spacing: 0.3px; text-transform: uppercase; color: #0F2A4A; border-left: 3px solid #1E7BD8; border-bottom: 1px solid #E3E8EF;">
+        <div class="sec-card" style="margin-top: 6px;">
+            <div class="sec-title">
                 3. Qualifying Academic Qualifications (10th SSC &amp; 12th Intermediate{{ !empty($student->academic->ug_college) ? ', Undergraduate' : '' }}{{ !empty($student->academic->pg_college) ? ' &amp; Postgraduate' : '' }})
             </div>
             <table style="width: 100%; border-collapse: collapse; font-size: 9.5px;">
                 <thead>
-                    <tr style="background: #F8FAFC; border-bottom: 1px solid #E2E8F0; text-align: left; color: #475569; font-weight: 800;">
+                    <tr style="background: #F8FAFC; border-bottom: 1px solid #CBD5E1; text-align: left; color: #475569; font-weight: 800;">
                         <th style="padding: 4px 6px; width: 18%;">Standard / Level</th>
                         <th style="padding: 4px 6px; width: 30%;">School / College Name</th>
                         <th style="padding: 4px 6px; width: 20%;">Board / University</th>
@@ -279,7 +293,7 @@
                 </thead>
                 <tbody>
                     {{-- 10th Standard --}}
-                    <tr style="border-bottom: 1px solid #E3E8EF;">
+                    <tr style="border-bottom: 1px solid #E2E8F0;">
                         <td style="padding: 4px 6px; font-weight: 800; color: #0F2A4A;">
                             <span style="display: inline-block; background: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe; border-radius: 3px; padding: 1px 5px; font-size: 8.5px;">
                                 10th Standard (SSC)
@@ -302,7 +316,7 @@
                         </td>
                     </tr>
                     {{-- 12th / Intermediate --}}
-                    <tr style="{{ (!empty($student->academic->ug_college) && $student->academic->ug_college !== '-' || ($student->degree_level ?? '') === 'mtech' || ($student->degree_level ?? '') === 'phd') ? 'border-bottom: 1px solid #E3E8EF;' : '' }}">
+                    <tr style="{{ (!empty($student->academic->ug_college) && $student->academic->ug_college !== '-' || ($student->degree_level ?? '') === 'mtech' || ($student->degree_level ?? '') === 'phd') ? 'border-bottom: 1px solid #E2E8F0;' : '' }}">
                         <td style="padding: 4px 6px; font-weight: 800; color: #0F2A4A;">
                             <span style="display: inline-block; background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; border-radius: 3px; padding: 1px 5px; font-size: 8.5px;">
                                 12th / Inter (10+2)
@@ -327,7 +341,7 @@
 
                     {{-- Undergraduate (UG / Degree / B.Tech) --}}
                     @if((!empty($student->academic->ug_college) && $student->academic->ug_college !== '-') || ($student->degree_level ?? '') === 'mtech' || ($student->degree_level ?? '') === 'phd')
-                    <tr style="{{ ((!empty($student->academic->pg_college) && $student->academic->pg_college !== '-') || ($student->degree_level ?? '') === 'phd') ? 'border-bottom: 1px solid #E3E8EF;' : '' }}">
+                    <tr style="{{ ((!empty($student->academic->pg_college) && $student->academic->pg_college !== '-') || ($student->degree_level ?? '') === 'phd') ? 'border-bottom: 1px solid #E2E8F0;' : '' }}">
                         <td style="padding: 4px 6px; font-weight: 800; color: #0F2A4A;">
                             <span style="display: inline-block; background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; border-radius: 3px; padding: 1px 5px; font-size: 8.5px;">
                                 Undergraduate (UG)
@@ -353,7 +367,7 @@
 
                     {{-- Postgraduate 1 (PG 1 / Master's / M.Tech) --}}
                     @if((!empty($student->academic->pg_college) && $student->academic->pg_college !== '-') || ($student->degree_level ?? '') === 'phd')
-                    <tr style="{{ ((!empty($student->academic->pg2_college) && $student->academic->pg2_college !== '-') || ($student->degree_level ?? '') === 'phd') ? 'border-bottom: 1px solid #E3E8EF;' : '' }}">
+                    <tr style="{{ ((!empty($student->academic->pg2_college) && $student->academic->pg2_college !== '-') || ($student->degree_level ?? '') === 'phd') ? 'border-bottom: 1px solid #E2E8F0;' : '' }}">
                         <td style="padding: 4px 6px; font-weight: 800; color: #0F2A4A;">
                             <span style="display: inline-block; background: #faf5ff; color: #7e22ce; border: 1px solid #e9d5ff; border-radius: 3px; padding: 1px 5px; font-size: 8.5px;">
                                 Postgraduate 1
@@ -411,15 +425,13 @@
             <tr>
                 <td style="width: 50%; padding-right: 4px; vertical-align: top;">
                     {{-- 4. PAYMENT INFORMATION --}}
-                    <div style="background: #ffffff; border: 1px solid #E3E8EF; border-radius: 8px; padding: 7px 10px; box-sizing: border-box;">
-                        <div style="margin: 0 0 5px; padding: 0 0 4px 6px; font-size: 10px; font-weight: 800; letter-spacing: 0.3px; text-transform: uppercase; color: #0F2A4A; border-left: 3px solid #1E7BD8; border-bottom: 1px solid #E3E8EF;">
-                            4. Admission Registration Fee
-                        </div>
+                    <div class="sec-card">
+                        <div class="sec-title">4. Admission Registration Fee</div>
                         <table style="width: 100%; border-collapse: collapse; font-size: 9.5px;">
-                            <tr><td style="width: 38%; color: #6B778A; padding: 2px 0;">Paid Amount</td><td style="font-weight: 800; border-bottom: 1px solid #E3E8EF; padding: 2px 0; color: #15803d; font-size: 10.5px;">INR {{ number_format((float) $student->payment_amount) }}</td></tr>
-                            <tr><td style="color: #6B778A; padding: 2px 0;">Payment Gateway</td><td style="font-weight: 700; border-bottom: 1px solid #E3E8EF; padding: 2px 0;">{{ $student->payment_method }}</td></tr>
-                            <tr><td style="color: #6B778A; padding: 2px 0;">Transaction Ref</td><td style="font-weight: 700; border-bottom: 1px solid #E3E8EF; padding: 2px 0; font-size: 8.5px; word-break: break-all;">{{ $student->transaction_id }}</td></tr>
-                            <tr><td style="color: #6B778A; padding: 2px 0;">Accounts Status</td>
+                            <tr><td style="width: 38%; color: #64748b; padding: 2px 0;">Paid Amount</td><td style="font-weight: 800; border-bottom: 1px solid #E2E8F0; padding: 2px 0; color: #15803d; font-size: 10.5px;">INR {{ number_format((float) $student->payment_amount) }}</td></tr>
+                            <tr><td style="color: #64748b; padding: 2px 0;">Payment Gateway</td><td style="font-weight: 700; border-bottom: 1px solid #E2E8F0; padding: 2px 0;">{{ $student->payment_method }}</td></tr>
+                            <tr><td style="color: #64748b; padding: 2px 0;">Transaction Ref</td><td style="font-weight: 700; border-bottom: 1px solid #E2E8F0; padding: 2px 0; font-size: 8.5px; word-break: break-all;">{{ $student->transaction_id }}</td></tr>
+                            <tr><td style="color: #64748b; padding: 2px 0;">Accounts Status</td>
                                 <td style="font-weight: 700; padding: 2px 0;">
                                     <span style="display: inline-block; font-size: 8px; font-weight: 800; padding: 2px 6px; border-radius: 6px; color: #12875B; background: #E2F5EC; border: 1px solid #a7f3d0;">
                                         ✓ {{ strtoupper($student->payment_status ?? 'COMPLETED') }} &amp; VERIFIED
@@ -431,10 +443,8 @@
                 </td>
                 <td style="width: 50%; padding-left: 4px; vertical-align: top;">
                     {{-- 5. DOCUMENTS UPLOAD SUMMARY --}}
-                    <div style="background: #ffffff; border: 1px solid #E3E8EF; border-radius: 8px; padding: 7px 10px; box-sizing: border-box;">
-                        <div style="margin: 0 0 5px; padding: 0 0 4px 6px; font-size: 10px; font-weight: 800; letter-spacing: 0.3px; text-transform: uppercase; color: #0F2A4A; border-left: 3px solid #1E7BD8; border-bottom: 1px solid #E3E8EF;">
-                            5. Document Verification Status
-                        </div>
+                    <div class="sec-card">
+                        <div class="sec-title">5. Document Verification Status</div>
                         @php
                             $onlyUploadedDocs = [];
                             $allDocsMeta = [
@@ -503,7 +513,7 @@
         </table>
 
         {{-- Instructions & Declaration --}}
-        <div style="background: #FFF8EA; border: 1px solid #F2DDB0; border-left: 3px solid #B25E09; border-radius: 8px; padding: 5px 10px; margin-top: 6px; font-size: 8px; line-height: 1.35; color: #1B2430;">
+        <div style="background: #FFF8EA; border: 1px solid #F2DDB0; border-left: 3px solid #B25E09; border-radius: 6px; padding: 5px 10px; margin-top: 6px; font-size: 8px; line-height: 1.35; color: #1B2430;">
             <strong style="color: #B25E09; letter-spacing: 0.3px;">INSTRUCTIONS &amp; DECLARATION</strong>
             <ul style="margin: 2px 0 0; padding-left: 14px;">
                 <li>Original certificates must be presented at the time of campus verification.</li>
@@ -515,20 +525,20 @@
         {{-- Signatures --}}
         <table style="width: 100%; border-collapse: collapse; margin-top: 14px;">
             <tr>
-                <td style="width: 33.33%; text-align: center; padding: 0 10px; color: #6B778A; font-size: 9px;">
-                    <div style="border-top: 1px solid #6B778A; padding-top: 4px; font-weight: 700;">Signature of Parent / Guardian</div>
+                <td style="width: 33.33%; text-align: center; padding: 0 10px; color: #64748b; font-size: 9px;">
+                    <div style="border-top: 1px solid #64748b; padding-top: 4px; font-weight: 700;">Signature of Parent / Guardian</div>
                 </td>
-                <td style="width: 33.33%; text-align: center; padding: 0 10px; color: #6B778A; font-size: 9px;">
-                    <div style="border-top: 1px solid #6B778A; padding-top: 4px; font-weight: 700;">Date: {{ date('d/m/Y') }}</div>
+                <td style="width: 33.33%; text-align: center; padding: 0 10px; color: #64748b; font-size: 9px;">
+                    <div style="border-top: 1px solid #64748b; padding-top: 4px; font-weight: 700;">Date: {{ date('d/m/Y') }}</div>
                 </td>
-                <td style="width: 33.33%; text-align: center; padding: 0 10px; color: #6B778A; font-size: 9px;">
-                    <div style="border-top: 1px solid #6B778A; padding-top: 4px; font-weight: 700;">Signature of Candidate</div>
+                <td style="width: 33.33%; text-align: center; padding: 0 10px; color: #64748b; font-size: 9px;">
+                    <div style="border-top: 1px solid #64748b; padding-top: 4px; font-weight: 700;">Signature of Candidate</div>
                 </td>
             </tr>
         </table>
 
         {{-- For Office Use Only --}}
-        <div style="border: 1px solid #cbd5e1; background: #f8fafc; border-radius: 6px; padding: 5px 10px; margin-top: 8px; font-size: 8px; color: #64748b;">
+        <div style="border: 1px solid #CBD5E1; background: #F8FAFC; border-radius: 6px; padding: 5px 10px; margin-top: 8px; font-size: 8px; color: #64748b;">
             <strong style="font-size: 8px; letter-spacing: 0.3px; display: block; margin-bottom: 3px; color: #0f172a;">FOR OFFICE USE ONLY &bull; UNIVERSITY ADMISSIONS DIRECTORATE</strong>
             <table style="width: 100%; border-collapse: collapse;">
                 <tr>
@@ -540,7 +550,7 @@
         </div>
 
         {{-- Footer --}}
-        <div style="text-align: center; font-size: 8px; color: #6B778A; margin-top: 6px;">
+        <div style="text-align: center; font-size: 7.5px; color: #64748b; margin-top: 6px;">
             Vignan's Foundation for Science, Technology &amp; Research (Deemed to be University) &nbsp;|&nbsp; https://admissions.vignan.ac.in
         </div>
 
