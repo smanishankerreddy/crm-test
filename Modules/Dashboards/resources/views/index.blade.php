@@ -2694,10 +2694,10 @@
                                     <h4 class="mockup-subbox-title">10th / Secondary School Details</h4>
                                 </div>
 
-                                <!-- Row 1: College Name / Institute Name & Board (2 Columns) -->
+                                <!-- Row 1: School Name / Institute Name & Board (2 Columns) -->
                                 <div class="mockup-field-row-2">
                                     <div class="mockup-field-group">
-                                        <label class="mockup-label">College Name / Institute Name:</label>
+                                        <label class="mockup-label">School Name / Institute Name:</label>
                                         <input type="text" name="school_co_name" id="tenth_school_name" class="mockup-input" value="{{ $academicDetails?->tenth_school_name }}" placeholder="School / Institute Name">
                                     </div>
                                     <div class="mockup-field-group">
