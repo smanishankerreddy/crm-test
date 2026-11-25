@@ -384,6 +384,7 @@ class ApplicationController extends Controller
                 'inter_college' => !empty($academicDetails?->pu2_college_name) ? ($academicDetails->pu2_college_name . (!empty($academicDetails?->pu2_campus_location) ? ' (' . $academicDetails->pu2_campus_location . ')' : '')) : '-',
                 'inter_campus_location' => $academicDetails?->pu2_campus_location ?? '-',
                 'inter_board' => !empty($academicDetails?->pu2_study_board) ? $academicDetails->pu2_study_board : '-',
+                'inter_group' => !empty($academicDetails?->pu2_group) ? $academicDetails->pu2_group : '-',
                 'inter_year' => !empty($academicDetails?->pu2_passed_year) ? $academicDetails->pu2_passed_year : '-',
                 'inter_roll' => !empty($academicDetails?->pu2_roll_no) ? $academicDetails->pu2_roll_no : '-',
                 'inter_marks_conducted' => !empty($academicDetails?->pu2_marks_conducted) ? $academicDetails->pu2_marks_conducted : '-',

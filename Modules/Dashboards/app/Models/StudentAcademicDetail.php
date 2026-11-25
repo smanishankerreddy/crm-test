@@ -42,6 +42,7 @@ class StudentAcademicDetail extends Model
         'pu2_campus_location',
         'pu2_study_board',
         'pu2_board_of_study',
+        'pu2_group',
         'pu2_college_city',
         'pu2_college_state',
         'pu2_college_district',

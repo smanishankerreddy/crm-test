@@ -319,7 +319,7 @@
                     <tr style="{{ (!empty($student->academic->ug_college) && $student->academic->ug_college !== '-' || ($student->degree_level ?? '') === 'mtech' || ($student->degree_level ?? '') === 'phd') ? 'border-bottom: 1px solid #E2E8F0;' : '' }}">
                         <td style="padding: 4px 6px; font-weight: 800; color: #0F2A4A;">
                             <span style="display: inline-block; background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; border-radius: 3px; padding: 1px 5px; font-size: 8.5px;">
-                                12th / Inter (10+2)
+                                12th / Inter{{ (!empty($student->academic->inter_group) && $student->academic->inter_group !== '-') ? ' (' . $student->academic->inter_group . ')' : ' (10+2)' }}
                             </span>
                         </td>
                         <td style="padding: 4px 6px; font-weight: 700; color: #1e293b;">

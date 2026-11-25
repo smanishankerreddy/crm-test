@@ -2852,8 +2852,8 @@
                                 <input type="hidden" name="course_choice" value="{{ $academicDetails?->pu2_study_board ?? '' }}">
                                 <input type="hidden" name="undertaking_60_pct" id="undertaking_60_pct_input" value="{{ $academicDetails?->undertaking_60_pct ?? '' }}">
 
-                                <!-- Row 1: College Name / Institute Name & Board (2 Columns) -->
-                                <div class="mockup-field-row-2">
+                                <!-- Row 1: College Name / Institute Name, Board & Intermediate Group (3 Columns) -->
+                                <div class="mockup-field-row-3">
                                     <div class="mockup-field-group">
                                         <label class="mockup-label">College Name / Institute Name: <span class="req-inter" style="color:#ef4444;">*</span></label>
                                         <input type="text" name="inter_college" id="inter_college" class="mockup-input" value="{{ $academicDetails?->pu2_college_name }}" placeholder="Enter College / Institute Name">
@@ -2861,6 +2861,18 @@
                                     <div class="mockup-field-group">
                                         <label class="mockup-label">Board: <span class="req-inter" style="color:#ef4444;">*</span></label>
                                         <input type="text" name="inter_board_of_study" id="inter_board_of_study" class="mockup-input" value="{{ $academicDetails?->pu2_study_board ?? $academicDetails?->pu2_board_of_study }}" placeholder="Enter Board (e.g. BIEAP, CBSE, TSBIE)">
+                                    </div>
+                                    <div class="mockup-field-group">
+                                        <label class="mockup-label">Group / Stream: <span class="req-inter" style="color:#ef4444;">*</span></label>
+                                        <select name="inter_group" id="inter_group" class="mockup-select">
+                                            <option value="">-- Select Group --</option>
+                                            @php
+                                                $curGroup = strtoupper(trim($academicDetails?->pu2_group ?? ''));
+                                            @endphp
+                                            <option value="MPC" {{ $curGroup === 'MPC' ? 'selected' : '' }}>MPC</option>
+                                            <option value="BIPC" {{ $curGroup === 'BIPC' ? 'selected' : '' }}>BIPC</option>
+                                            <option value="MBIPC" {{ $curGroup === 'MBIPC' ? 'selected' : '' }}>MBIPC</option>
+                                        </select>
                                     </div>
                                 </div>
 
@@ -3483,7 +3495,7 @@
                                 populateDistrictDropdown(stateId, 'geo-pg2-district-select', '{{ $academicDetails?->pg2_college_district ?: ($personalInfo?->district ?: ($defaultDistrict ?? "Guntur")) }}');
                             }
 
-                            const interFields = ['inter_college', 'inter_board_of_study', 'inter_city', 'geo-inter-state-select', 'geo-inter-district-select', 'inter_year', 'pu2_marks_conducted', 'pu2_marks_earned'];
+                            const interFields = ['inter_college', 'inter_board_of_study', 'inter_group', 'inter_city', 'geo-inter-state-select', 'geo-inter-district-select', 'inter_year', 'pu2_marks_conducted', 'pu2_marks_earned'];
                             const ugFields = ['ug_college_name', 'ug_university_board', 'ug_college_city', 'geo-ug-state-select', 'geo-ug-district-select', 'ug_passed_year', 'ug_roll_no', 'ug_marks_conducted', 'ug_marks_earned'];
                             const pg1Fields = ['pg_college_name', 'pg_university_board', 'pg_college_city', 'geo-pg-state-select', 'geo-pg-district-select', 'pg_passed_year', 'pg_roll_no', 'pg_marks_conducted', 'pg_marks_earned'];
 
@@ -4006,6 +4018,7 @@
                                         $fieldMap = [
                                             'inter_college' => 'inter_college',
                                             'inter_board_of_study' => 'inter_board_of_study',
+                                            'inter_group' => 'inter_group',
                                             'city' => 'inter_city',
                                             'jr_state' => 'geo-inter-state-select',
                                             'jr_district' => 'geo-inter-district-select',
