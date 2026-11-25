@@ -1993,8 +1993,10 @@
             border-radius: 12px;
             box-shadow: 0 16px 36px -4px rgba(15, 23, 42, 0.16), 0 6px 14px -3px rgba(15, 23, 42, 0.08);
             padding: 0.35rem;
-            max-height: 240px;
-            overflow-y: auto;
+            max-height: 280px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
             z-index: 1002;
             opacity: 0;
             visibility: hidden;
@@ -2009,19 +2011,75 @@
             transform: translateY(0);
         }
 
+        .custom-select-search-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            padding: 0.25rem 0.25rem 0.45rem;
+            border-bottom: 1px solid #f1f5f9;
+            margin-bottom: 0.25rem;
+            flex-shrink: 0;
+        }
+
+        .custom-select-search-icon {
+            position: absolute;
+            left: 0.75rem;
+            width: 15px;
+            height: 15px;
+            color: #94a3b8;
+            pointer-events: none;
+        }
+
+        .custom-select-search-input {
+            width: 100%;
+            padding: 0.42rem 0.65rem 0.42rem 2rem;
+            font-size: 0.82rem;
+            color: #1e293b;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            outline: none;
+            transition: all 0.15s ease;
+            box-sizing: border-box;
+        }
+
+        .custom-select-search-input:focus {
+            background: #ffffff;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 2.5px rgba(37, 99, 235, 0.12);
+        }
+
+        .custom-select-options-list {
+            overflow-y: auto;
+            max-height: 210px;
+            flex: 1;
+        }
+
+        .custom-select-options-list::-webkit-scrollbar,
         .custom-select-dropdown::-webkit-scrollbar {
             width: 6px;
         }
+        .custom-select-options-list::-webkit-scrollbar-track,
         .custom-select-dropdown::-webkit-scrollbar-track {
             background: #f8fafc;
             border-radius: 6px;
         }
+        .custom-select-options-list::-webkit-scrollbar-thumb,
         .custom-select-dropdown::-webkit-scrollbar-thumb {
             background: #cbd5e1;
             border-radius: 6px;
         }
+        .custom-select-options-list::-webkit-scrollbar-thumb:hover,
         .custom-select-dropdown::-webkit-scrollbar-thumb:hover {
             background: #94a3b8;
+        }
+
+        .custom-select-no-results {
+            padding: 0.85rem 0.5rem;
+            font-size: 0.82rem;
+            color: #94a3b8;
+            text-align: center;
+            font-weight: 500;
         }
 
         .custom-select-option {
@@ -6078,6 +6136,21 @@
                     });
                     if (!isOpen) {
                         container.classList.add('is-open');
+                        const searchInput = dropdown.querySelector('.custom-select-search-input');
+                        if (searchInput) {
+                            searchInput.value = '';
+                            const optionsList = dropdown.querySelector('.custom-select-options-list');
+                            if (optionsList) {
+                                optionsList.querySelectorAll('.custom-select-option').forEach(function(el) {
+                                    el.style.display = '';
+                                });
+                            }
+                            const noResults = dropdown.querySelector('.custom-select-no-results');
+                            if (noResults) noResults.style.display = 'none';
+                            setTimeout(function() {
+                                searchInput.focus();
+                            }, 50);
+                        }
                         const selectedItem = dropdown.querySelector('.is-selected');
                         if (selectedItem) {
                             selectedItem.scrollIntoView({ block: 'nearest' });
@@ -6124,6 +6197,64 @@
             if (!dropdown) return;
 
             dropdown.innerHTML = '';
+
+            // Enable search input if options count >= 5 (countries, states, districts, boards, etc.)
+            const enableSearch = selectEl.options.length >= 5;
+            let optionsList = dropdown;
+
+            if (enableSearch) {
+                const searchWrap = document.createElement('div');
+                searchWrap.className = 'custom-select-search-wrapper';
+                searchWrap.innerHTML = '<svg class="custom-select-search-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" /></svg><input type="text" class="custom-select-search-input" placeholder="Type to search..." autocomplete="off">';
+
+                searchWrap.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                });
+
+                const searchInput = searchWrap.querySelector('.custom-select-search-input');
+                searchInput.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                });
+                searchInput.addEventListener('keydown', function(e) {
+                    e.stopPropagation();
+                    if (e.key === 'Escape') {
+                        container.classList.remove('is-open');
+                    }
+                });
+
+                dropdown.appendChild(searchWrap);
+
+                optionsList = document.createElement('div');
+                optionsList.className = 'custom-select-options-list';
+                dropdown.appendChild(optionsList);
+
+                const noResults = document.createElement('div');
+                noResults.className = 'custom-select-no-results';
+                noResults.textContent = 'No matching options found';
+                noResults.style.display = 'none';
+                dropdown.appendChild(noResults);
+
+                // Real-time search filter
+                searchInput.addEventListener('input', function() {
+                    const filter = this.value.toLowerCase().trim();
+                    let matchCount = 0;
+                    optionsList.querySelectorAll('.custom-select-option').forEach(function(opt) {
+                        if (opt.classList.contains('is-placeholder')) {
+                            opt.style.display = filter ? 'none' : '';
+                            return;
+                        }
+                        const text = opt.textContent.toLowerCase();
+                        if (text.includes(filter)) {
+                            opt.style.display = '';
+                            matchCount++;
+                        } else {
+                            opt.style.display = 'none';
+                        }
+                    });
+                    noResults.style.display = matchCount === 0 ? 'block' : 'none';
+                });
+            }
+
             Array.from(selectEl.options).forEach(function(opt) {
                 const item = document.createElement('div');
                 item.className = 'custom-select-option';
@@ -6153,7 +6284,7 @@
                     }
                 });
 
-                dropdown.appendChild(item);
+                optionsList.appendChild(item);
             });
 
             updateTriggerLabel(selectEl, container);
