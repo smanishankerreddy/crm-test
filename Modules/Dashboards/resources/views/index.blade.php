@@ -5373,12 +5373,13 @@
                                 <table style="width: 100%; border-collapse: collapse; font-size: 10.5px;">
                                     <thead>
                                         <tr style="background: #F8FAFC; border-bottom: 2px solid #E2E8F0; text-align: left; color: #475569; font-weight: 800;">
-                                            <th style="padding: 6px 8px; width: 18%;">Standard / Level</th>
-                                            <th style="padding: 6px 8px; width: 28%;">School / College Name</th>
-                                            <th style="padding: 6px 8px; width: 20%;">Board / University</th>
-                                            <th style="padding: 6px 8px; width: 10%; text-align: center;">Year</th>
-                                            <th style="padding: 6px 8px; width: 12%;">Roll / Hall Ticket</th>
-                                            <th style="padding: 6px 8px; width: 12%; text-align: right;">Percentage</th>
+                                            <th style="padding: 6px 8px; width: 17%;">Standard / Level</th>
+                                            <th style="padding: 6px 8px; width: 26%;">School / College Name</th>
+                                            <th style="padding: 6px 8px; width: 18%;">Board / University</th>
+                                            <th style="padding: 6px 8px; width: 13%; text-align: center; font-weight: 800; color: #0F2A4A;">Group / Stream</th>
+                                            <th style="padding: 6px 8px; width: 8%; text-align: center;">Year</th>
+                                            <th style="padding: 6px 8px; width: 10%;">Roll / Hall Ticket</th>
+                                            <th style="padding: 6px 8px; width: 8%; text-align: right;">Percentage</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -5394,6 +5395,9 @@
                                             </td>
                                             <td style="padding: 6px 8px; color: #475569;">
                                                 {{ (!empty($appStudent->academic->ssc_board) && $appStudent->academic->ssc_board !== '-') ? $appStudent->academic->ssc_board : '-' }}
+                                            </td>
+                                            <td style="padding: 6px 8px; text-align: center; color: #64748b; font-weight: 700;">
+                                                -
                                             </td>
                                             <td style="padding: 6px 8px; text-align: center; font-weight: 700; color: #0F2A4A;">
                                                 {{ (!empty($appStudent->academic->ssc_year) && $appStudent->academic->ssc_year !== '-') ? $appStudent->academic->ssc_year : '-' }}
@@ -5417,6 +5421,9 @@
                                             </td>
                                             <td style="padding: 6px 8px; color: #475569;">
                                                 {{ (!empty($appStudent->academic->inter_board) && $appStudent->academic->inter_board !== '-') ? $appStudent->academic->inter_board : '-' }}
+                                            </td>
+                                            <td style="padding: 6px 8px; text-align: center; font-weight: 800; color: #0F2A4A;">
+                                                {{ (!empty($appStudent->academic->inter_group) && $appStudent->academic->inter_group !== '-') ? $appStudent->academic->inter_group : '-' }}
                                             </td>
                                             <td style="padding: 6px 8px; text-align: center; font-weight: 700; color: #0F2A4A;">
                                                 {{ (!empty($appStudent->academic->inter_year) && $appStudent->academic->inter_year !== '-') ? $appStudent->academic->inter_year : '-' }}
@@ -5442,6 +5449,9 @@
                                             </td>
                                             <td style="padding: 6px 8px; color: #475569;">
                                                 {{ (!empty($appStudent->academic->ug_board) && $appStudent->academic->ug_board !== '-') ? $appStudent->academic->ug_board : '-' }}
+                                            </td>
+                                            <td style="padding: 6px 8px; text-align: center; color: #64748b; font-weight: 700;">
+                                                -
                                             </td>
                                             <td style="padding: 6px 8px; text-align: center; font-weight: 700; color: #0F2A4A;">
                                                 {{ (!empty($appStudent->academic->ug_year) && $appStudent->academic->ug_year !== '-') ? $appStudent->academic->ug_year : '-' }}
@@ -5469,6 +5479,9 @@
                                             <td style="padding: 6px 8px; color: #475569;">
                                                 {{ (!empty($appStudent->academic->pg_board) && $appStudent->academic->pg_board !== '-') ? $appStudent->academic->pg_board : '-' }}
                                             </td>
+                                            <td style="padding: 6px 8px; text-align: center; color: #64748b; font-weight: 700;">
+                                                -
+                                            </td>
                                             <td style="padding: 6px 8px; text-align: center; font-weight: 700; color: #0F2A4A;">
                                                 {{ (!empty($appStudent->academic->pg_year) && $appStudent->academic->pg_year !== '-') ? $appStudent->academic->pg_year : '-' }}
                                             </td>
@@ -5494,6 +5507,9 @@
                                             </td>
                                             <td style="padding: 6px 8px; color: #475569;">
                                                 {{ (!empty($appStudent->academic->pg2_board) && $appStudent->academic->pg2_board !== '-') ? $appStudent->academic->pg2_board : '-' }}
+                                            </td>
+                                            <td style="padding: 6px 8px; text-align: center; color: #64748b; font-weight: 700;">
+                                                -
                                             </td>
                                             <td style="padding: 6px 8px; text-align: center; font-weight: 700; color: #0F2A4A;">
                                                 {{ (!empty($appStudent->academic->pg2_year) && $appStudent->academic->pg2_year !== '-') ? $appStudent->academic->pg2_year : '-' }}
