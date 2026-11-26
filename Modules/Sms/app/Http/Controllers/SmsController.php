@@ -92,15 +92,17 @@ class SmsController extends Controller
     }
 
     /**
-     * Send test WhatsApp message (OTP or Admission campaign).
+     * Send test WhatsApp message (OTP, Admission, or Milestone Stage Update).
      */
     public function sendTestWhatsApp(Request $request, WhatsAppService $whatsAppService): RedirectResponse
     {
         $request->validate([
             'phone' => ['required', 'string'],
-            'campaign_type' => ['required', 'string', 'in:otp,admission'],
+            'campaign_type' => ['required', 'string', 'in:otp,admission,stage'],
             'test_name' => ['nullable', 'string'],
             'test_program' => ['nullable', 'string'],
+            'stage_key' => ['nullable', 'string'],
+            'stage_message' => ['nullable', 'string'],
         ]);
 
         $phone = $request->input('phone');
@@ -115,15 +117,39 @@ class SmsController extends Controller
                 registerNo: 'TEST_REG',
                 ip: $request->ip()
             );
-        } else {
+        } elseif ($type === 'admission') {
             $res = $whatsAppService->sendAdmissionInfo(
                 phone: $phone,
                 candidateName: $request->input('test_name') ?: 'Prospective Student',
-                applicationId: '2026' . mt_rand(100000, 999999),
-                programName: $request->input('test_program') ?: 'Master of Business Administration (MBA)',
+                applicationId: '2027' . mt_rand(100000, 999999),
+                programName: $request->input('test_program') ?: 'Bachelor of Technology (B.Tech CSE)',
                 contactInfo: 'admissions@vignan.ac.in / 0863-2344700',
                 user: $request->input('test_name') ?: 'Prospective Student',
                 registerNo: 'APP-' . mt_rand(1000, 9999),
+                ip: $request->ip()
+            );
+        } else {
+            // Milestone Stage Update (crmadm campaign)
+            $stdName = $request->input('test_name_stage') ?: $request->input('test_name') ?: 'Hemanth';
+            $appId = '2027' . mt_rand(100000, 999999);
+            $stageKey = $request->input('stage_key') ?: 'stage1';
+            $customText = trim((string)$request->input('stage_message'));
+
+            $stageMsg = match ($stageKey) {
+                'stage1' => "Hello {$stdName} (App ID: {$appId}), your Personal Profile has been saved successfully! Please log in to complete your Academic Details.",
+                'stage2' => "Hello {$stdName}, your Academic Details (Intermediate MPC) have been saved successfully! Please upload your required certificates and proceed to fee payment.",
+                'stage3' => "Dear {$stdName}, your documents are uploaded successfully. Please pay the application fee of Rs. 1,000 to confirm your admission registration.",
+                'stage4' => "Dear {$stdName}, your application fee payment is confirmed! You are now eligible to book your V-SAT examination slot on the portal.",
+                'stage5' => "Dear {$stdName}, your V-SAT 2027 Exam Slot (Slot 1 on 15/04/2027 at 10:00 AM, Guntur Center) is confirmed! You can now download your Hall Ticket from the portal.",
+                'custom' => !empty($customText) ? $customText : "Hello {$stdName}, your admission status has been updated. Please log in to the portal.",
+                default  => !empty($customText) ? $customText : "Hello {$stdName}, your admission status has been updated. Please log in to the portal.",
+            };
+
+            $res = $whatsAppService->sendStageUpdate(
+                phone: $phone,
+                stageMessage: $stageMsg,
+                candidateName: $stdName,
+                applicationId: $appId,
                 ip: $request->ip()
             );
         }

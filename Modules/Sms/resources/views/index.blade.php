@@ -1516,8 +1516,9 @@
                         <div class="form-group-field">
                             <label class="form-field-label">Campaign Template</label>
                             <select name="campaign_type" class="form-control-input" id="wa-campaign-selector" onchange="toggleWaFields(this.value)">
-                                <option value="otp">OTP Verification (vimsgridonetimepp)</option>
+                                <option value="otp">OTP Verification (crmadm)</option>
                                 <option value="admission">Admission Details (crmfirstinfo)</option>
+                                <option value="stage">Stage Milestone Update (crmadm)</option>
                             </select>
                         </div>
                     </div>
@@ -1530,6 +1531,34 @@
                         <div class="form-group-field">
                             <label class="form-field-label">Program Name</label>
                             <input type="text" name="test_program" placeholder="e.g. MBA / MCA" class="form-control-input">
+                        </div>
+                    </div>
+
+                    <div id="wa-stage-fields" style="display:none;gap:0.75rem;margin-bottom:0.75rem;" class="form-column">
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
+                            <div class="form-group-field">
+                                <label class="form-field-label">Candidate Name</label>
+                                <input type="text" name="test_name_stage" id="stage_test_name" placeholder="e.g. Hemanth" value="Hemanth" class="form-control-input" oninput="updateStagePreview()">
+                            </div>
+                            <div class="form-group-field">
+                                <label class="form-field-label">Admission Stage Milestone</label>
+                                <select name="stage_key" class="form-control-input" id="wa-stage-selector" onchange="updateStagePreview()">
+                                    <option value="stage1">Stage 1: Personal Details Saved ➔ Academic Reminder</option>
+                                    <option value="stage2">Stage 2: Academic Details (MPC/BIPC) ➔ Doc Upload</option>
+                                    <option value="stage3">Stage 3: Documents Uploaded ➔ Fee Payment</option>
+                                    <option value="stage4">Stage 4: Fee Payment Confirmed ➔ Slot Booking</option>
+                                    <option value="stage5">Stage 5: Exam Slot Booked ➔ Download Form</option>
+                                    <option value="custom">Custom Message (Type Below)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group-field" id="stage-custom-box" style="display:none;margin-top:0.5rem;">
+                            <label class="form-field-label">Custom Milestone Message</label>
+                            <textarea name="stage_message" id="stage_custom_message" rows="2" class="form-control-input" placeholder="Type your custom update text here..." oninput="updateStagePreview()"></textarea>
+                        </div>
+                        <div style="background:#f8fafc;border:1px dashed #cbd5e1;border-radius:6px;padding:8px 12px;font-size:0.82rem;color:#334155;margin-top:0.5rem;">
+                            <strong style="color:#0f2a4a;">WhatsApp Message Preview (crmadm):</strong>
+                            <div id="stage-msg-preview" style="margin-top:4px;color:#1e40af;font-weight:600;"></div>
                         </div>
                     </div>
 
@@ -1787,8 +1816,39 @@
         }
 
         function toggleWaFields(val) {
-            const fields = document.getElementById('wa-admission-fields');
-            fields.style.display = (val === 'admission') ? 'grid' : 'none';
+            const admFields = document.getElementById('wa-admission-fields');
+            const stageFields = document.getElementById('wa-stage-fields');
+            admFields.style.display = (val === 'admission') ? 'grid' : 'none';
+            stageFields.style.display = (val === 'stage') ? 'block' : 'none';
+            if (val === 'stage') {
+                updateStagePreview();
+            }
+        }
+
+        function updateStagePreview() {
+            const stageKey = document.getElementById('wa-stage-selector').value;
+            const customBox = document.getElementById('stage-custom-box');
+            const previewEl = document.getElementById('stage-msg-preview');
+            const name = document.getElementById('stage_test_name').value.trim() || 'Hemanth';
+            const customText = document.getElementById('stage_custom_message').value.trim();
+
+            if (stageKey === 'custom') {
+                customBox.style.display = 'block';
+                previewEl.textContent = customText ? customText : `Hello ${name}, your admission update is ready. Please log in to the portal.`;
+            } else {
+                customBox.style.display = 'none';
+                if (stageKey === 'stage1') {
+                    previewEl.textContent = `Hello ${name} (App ID: 2027000039), your Personal Profile has been saved successfully! Please log in to complete your Academic Details.`;
+                } else if (stageKey === 'stage2') {
+                    previewEl.textContent = `Hello ${name}, your Academic Details (Intermediate MPC) have been saved successfully! Please upload your required certificates and proceed to fee payment.`;
+                } else if (stageKey === 'stage3') {
+                    previewEl.textContent = `Dear ${name}, your documents are uploaded successfully. Please pay the application fee of Rs. 1,000 to confirm your admission registration.`;
+                } else if (stageKey === 'stage4') {
+                    previewEl.textContent = `Dear ${name}, your application fee payment is confirmed! You are now eligible to book your V-SAT examination slot on the portal.`;
+                } else if (stageKey === 'stage5') {
+                    previewEl.textContent = `Dear ${name}, your V-SAT 2027 Exam Slot (Slot 1 on 15/04/2027 at 10:00 AM, Guntur Center) is confirmed! You can now download your Hall Ticket from the portal.`;
+                }
+            }
         }
 
         function toggleSmsFields(val) {

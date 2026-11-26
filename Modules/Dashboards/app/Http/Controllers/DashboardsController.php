@@ -20,6 +20,7 @@ use Modules\Auth\Models\User;
 use Modules\Auth\Services\RoleService;
 use Modules\Crm\Services\CrmIdService;
 use Modules\Finance\Services\CouponService;
+use Modules\Sms\Services\WhatsAppService;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -901,6 +902,27 @@ class DashboardsController extends Controller
                         $crmUpdates['ableto'] = (bool) $request->input('hostel_required');
                     }
                     $crmStudent->update($crmUpdates);
+
+                    // WhatsApp Milestone Update: Stage 1 (Personal Details) completed
+                    try {
+                        if (class_exists(WhatsAppService::class) && $crmStudent) {
+                            $cleanPhone = substr(preg_replace('/\D/', '', $crmStudent->phoneno ?? ''), -10);
+                            if ($cleanPhone) {
+                                $stdName = $crmStudent->name ?: 'Student';
+                                $appNo = $crmStudent->applinano ?: '';
+                                $stageMsg = "Hello {$stdName}" . ($appNo ? " (App ID: {$appNo})" : "") . ", your Personal Profile has been saved successfully! Please log in to complete your Academic Details.";
+                                app(WhatsAppService::class)->sendStageUpdate(
+                                    phone: $cleanPhone,
+                                    stageMessage: $stageMsg,
+                                    candidateName: $stdName,
+                                    applicationId: $appNo,
+                                    ip: $request->ip()
+                                );
+                            }
+                        }
+                    } catch (\Throwable $we) {
+                        Log::warning('[DashboardsController] Stage 1 WhatsApp notice: ' . $we->getMessage());
+                    }
                 }
                 $nextStep = 2;
                 $msg = 'Stage 1: Personal Profile saved successfully!';
@@ -1308,6 +1330,29 @@ class DashboardsController extends Controller
                         }
                     }
                     $crmStudent->update($crmUpdates);
+
+                    // WhatsApp Milestone Update: Stage 2 (Academic Records) completed
+                    try {
+                        if (class_exists(WhatsAppService::class) && $crmStudent) {
+                            $cleanPhone = substr(preg_replace('/\D/', '', $crmStudent->phoneno ?? ''), -10);
+                            if ($cleanPhone) {
+                                $stdName = $crmStudent->name ?: 'Student';
+                                $appNo = $crmStudent->applinano ?: '';
+                                $groupVal = $request->input('inter_group') ?? ($academicPayload['pu2_group'] ?? null);
+                                $groupStr = (!empty($groupVal) && $groupVal !== '-') ? " ({$groupVal})" : "";
+                                $stageMsg = "Hello {$stdName}, your Academic Details{$groupStr} have been saved successfully! Please upload your required certificates and proceed to fee payment.";
+                                app(WhatsAppService::class)->sendStageUpdate(
+                                    phone: $cleanPhone,
+                                    stageMessage: $stageMsg,
+                                    candidateName: $stdName,
+                                    applicationId: $appNo,
+                                    ip: $request->ip()
+                                );
+                            }
+                        }
+                    } catch (\Throwable $we) {
+                        Log::warning('[DashboardsController] Stage 2 WhatsApp notice: ' . $we->getMessage());
+                    }
                 }
                 $nextStep = 3;
                 $msg = 'Stage 2: Academic Records saved successfully!';
@@ -1434,6 +1479,27 @@ class DashboardsController extends Controller
                         }
                     }
                     $crmStudent->update($crmUpdates);
+
+                    // WhatsApp Milestone Update: Stage 3 (Document Uploads) completed
+                    try {
+                        if (class_exists(WhatsAppService::class) && $crmStudent) {
+                            $cleanPhone = substr(preg_replace('/\D/', '', $crmStudent->phoneno ?? ''), -10);
+                            if ($cleanPhone) {
+                                $stdName = $crmStudent->name ?: 'Student';
+                                $appNo = $crmStudent->applinano ?: '';
+                                $stageMsg = "Dear {$stdName}, your document uploads are saved successfully! Please complete your application fee payment to proceed with your admission.";
+                                app(WhatsAppService::class)->sendStageUpdate(
+                                    phone: $cleanPhone,
+                                    stageMessage: $stageMsg,
+                                    candidateName: $stdName,
+                                    applicationId: $appNo,
+                                    ip: $request->ip()
+                                );
+                            }
+                        }
+                    } catch (\Throwable $we) {
+                        Log::warning('[DashboardsController] Stage 3 WhatsApp notice: ' . $we->getMessage());
+                    }
                 }
                 $nextStep = 4;
                 $msg = 'Stage 3: Document Uploads saved successfully!';
@@ -1445,6 +1511,27 @@ class DashboardsController extends Controller
                         'log_ipaddress' => $request->ip(),
                         'log_timestamp' => now(),
                     ]);
+
+                    // WhatsApp Milestone Update: Stage 4 (Fee Payment) confirmed
+                    try {
+                        if (class_exists(WhatsAppService::class) && $crmStudent) {
+                            $cleanPhone = substr(preg_replace('/\D/', '', $crmStudent->phoneno ?? ''), -10);
+                            if ($cleanPhone) {
+                                $stdName = $crmStudent->name ?: 'Student';
+                                $appNo = $crmStudent->applinano ?: '';
+                                $stageMsg = "Dear {$stdName}, your application fee payment is confirmed! You are now eligible to book your V-SAT examination slot on the portal.";
+                                app(WhatsAppService::class)->sendStageUpdate(
+                                    phone: $cleanPhone,
+                                    stageMessage: $stageMsg,
+                                    candidateName: $stdName,
+                                    applicationId: $appNo,
+                                    ip: $request->ip()
+                                );
+                            }
+                        }
+                    } catch (\Throwable $we) {
+                        Log::warning('[DashboardsController] Stage 4 WhatsApp notice: ' . $we->getMessage());
+                    }
                 }
                 $nextStep = 5;
                 $msg = 'Stage 4: Admission Fee Payment confirmed!';
@@ -1527,6 +1614,29 @@ class DashboardsController extends Controller
                         'log_ipaddress' => $request->ip(),
                         'log_timestamp' => now(),
                     ]);
+
+                    // WhatsApp Milestone Update: Stage 5 (Exam Slot Booking) confirmed
+                    try {
+                        if (class_exists(WhatsAppService::class) && $crmStudent) {
+                            $cleanPhone = substr(preg_replace('/\D/', '', $crmStudent->phoneno ?? ''), -10);
+                            if ($cleanPhone) {
+                                $stdName = $crmStudent->name ?: 'Student';
+                                $appNo = $crmStudent->applinano ?: '';
+                                $slotName = $request->input('exam_slot') ?? 'Slot 1';
+                                $dateStr = \Carbon\Carbon::parse($request->input('examdate'))->format('d/m/Y');
+                                $stageMsg = "Dear {$stdName}, your V-SAT 2027 exam slot ({$slotName} on {$dateStr}) is confirmed! You can now download your Application Form and Hall Ticket from the portal.";
+                                app(WhatsAppService::class)->sendStageUpdate(
+                                    phone: $cleanPhone,
+                                    stageMessage: $stageMsg,
+                                    candidateName: $stdName,
+                                    applicationId: $appNo,
+                                    ip: $request->ip()
+                                );
+                            }
+                        }
+                    } catch (\Throwable $we) {
+                        Log::warning('[DashboardsController] Stage 5 WhatsApp notice: ' . $we->getMessage());
+                    }
                 }
                 $nextStep = 6;
                 $msg = $existingExamSchedule
