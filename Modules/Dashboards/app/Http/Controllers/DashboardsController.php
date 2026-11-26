@@ -21,6 +21,7 @@ use Modules\Auth\Services\RoleService;
 use Modules\Crm\Services\CrmIdService;
 use Modules\Finance\Services\CouponService;
 use Modules\Sms\Services\WhatsAppService;
+use Modules\Sms\Services\SmsService;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -918,6 +919,14 @@ class DashboardsController extends Controller
                                     applicationId: $appNo,
                                     ip: $request->ip()
                                 );
+                                if (class_exists(SmsService::class)) {
+                                    app(SmsService::class)->sendStageSms(
+                                        phone: $cleanPhone,
+                                        message: $stageMsg,
+                                        name: $stdName,
+                                        applicationNo: $appNo
+                                    );
+                                }
                             }
                         }
                     } catch (\Throwable $we) {
@@ -1348,6 +1357,14 @@ class DashboardsController extends Controller
                                     applicationId: $appNo,
                                     ip: $request->ip()
                                 );
+                                if (class_exists(SmsService::class)) {
+                                    app(SmsService::class)->sendStageSms(
+                                        phone: $cleanPhone,
+                                        message: $stageMsg,
+                                        name: $stdName,
+                                        applicationNo: $appNo
+                                    );
+                                }
                             }
                         }
                     } catch (\Throwable $we) {
@@ -1495,6 +1512,14 @@ class DashboardsController extends Controller
                                     applicationId: $appNo,
                                     ip: $request->ip()
                                 );
+                                if (class_exists(SmsService::class)) {
+                                    app(SmsService::class)->sendStageSms(
+                                        phone: $cleanPhone,
+                                        message: $stageMsg,
+                                        name: $stdName,
+                                        applicationNo: $appNo
+                                    );
+                                }
                             }
                         }
                     } catch (\Throwable $we) {
@@ -1527,6 +1552,14 @@ class DashboardsController extends Controller
                                     applicationId: $appNo,
                                     ip: $request->ip()
                                 );
+                                if (class_exists(SmsService::class)) {
+                                    app(SmsService::class)->sendStageSms(
+                                        phone: $cleanPhone,
+                                        message: $stageMsg,
+                                        name: $stdName,
+                                        applicationNo: $appNo
+                                    );
+                                }
                             }
                         }
                     } catch (\Throwable $we) {
@@ -1632,6 +1665,14 @@ class DashboardsController extends Controller
                                     applicationId: $appNo,
                                     ip: $request->ip()
                                 );
+                                if (class_exists(SmsService::class)) {
+                                    app(SmsService::class)->sendStageSms(
+                                        phone: $cleanPhone,
+                                        message: $stageMsg,
+                                        name: $stdName,
+                                        applicationNo: $appNo
+                                    );
+                                }
                             }
                         }
                     } catch (\Throwable $we) {

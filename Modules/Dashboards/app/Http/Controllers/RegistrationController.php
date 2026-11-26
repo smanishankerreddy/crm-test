@@ -532,12 +532,16 @@ class RegistrationController extends Controller
         }
 
         // 4. Dispatch WhatsApp & SMS (if configured)
+        $fullProgramWithBranch = (!empty($branchName) && $branchName !== 'General Core' && !str_contains($programName, $branchName))
+            ? "{$programName} ({$branchName})"
+            : $programName;
+
         try {
             $whatsAppService->sendAdmissionInfo(
                 phone: $cleanMobile,
                 candidateName: $applicantName,
                 applicationId: $appliNano,
-                programName: $programName,
+                programName: $fullProgramWithBranch,
                 contactInfo: 'admissions@vignan.ac.in / 0863-2344700',
                 user: $applicantName,
                 registerNo: $appliNano,

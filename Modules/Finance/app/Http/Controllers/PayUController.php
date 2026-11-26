@@ -321,6 +321,36 @@ class PayUController extends Controller
         $studentReg = CrmStudentRegistration::where('applinano', $applino)->first();
         if ($studentReg) {
             $studentReg->update(['stage1' => 'paid', 'stage4' => 'paid', 'log_timestamp' => now()]);
+
+            // Trigger WhatsApp & SMS payment confirmation and slot booking reminder
+            try {
+                $cleanPhone = substr(preg_replace('/\D/', '', $studentReg->phoneno ?? ''), -10);
+                if ($cleanPhone) {
+                    $stdName = $studentReg->name ?: 'Student';
+                    $amountFmt = number_format($amount, 2);
+                    $stageMsg = "Dear {$stdName}, your application fee payment of Rs. {$amountFmt} is received successfully (Txn: {$txnid})! You are now eligible to book your V-SAT examination slot on the portal.";
+
+                    if (class_exists(\Modules\Sms\Services\WhatsAppService::class)) {
+                        app(\Modules\Sms\Services\WhatsAppService::class)->sendStageUpdate(
+                            phone: $cleanPhone,
+                            stageMessage: $stageMsg,
+                            candidateName: $stdName,
+                            applicationId: $applino,
+                            ip: $request->ip()
+                        );
+                    }
+                    if (class_exists(\Modules\Sms\Services\SmsService::class)) {
+                        app(\Modules\Sms\Services\SmsService::class)->sendStageSms(
+                            phone: $cleanPhone,
+                            message: $stageMsg,
+                            name: $stdName,
+                            applicationNo: $applino
+                        );
+                    }
+                }
+            } catch (\Throwable $pe) {
+                Log::warning('[PayU] Payment confirmation message dispatch error: ' . $pe->getMessage());
+            }
         } else {
             Log::error('[PayU] Paid but no registration', ['applino' => $applino, 'txnid' => $txnid]);
         }

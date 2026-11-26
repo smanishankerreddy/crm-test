@@ -237,6 +237,45 @@ class SmsService
     }
 
     /**
+     * Send admission stage milestone update SMS via JioCX DLT Gateway.
+     *
+     * @param string $phone Destination mobile
+     * @param string $message Complete SMS message body
+     * @param string|null $name Candidate name
+     * @param string|null $applicationNo Application number
+     * @return array
+     */
+    public function sendStageSms(
+        string $phone,
+        string $message,
+        ?string $name = null,
+        ?string $applicationNo = null
+    ): array {
+        $templateId = config('services.jiocx_sms.template_stage') ?: env('JIOCX_DLT_TEMPLATE_ID_STAGE');
+
+        if (!$templateId) {
+            Log::info("[SmsService] DLT template for Stage update not configured in .env (JIOCX_DLT_TEMPLATE_ID_STAGE). Simulating log for '{$phone}': {$message}");
+            return [
+                'success' => true,
+                'status' => 'DLT_SIMULATED',
+                'data' => [
+                    'simulated' => true,
+                    'message' => $message,
+                    'note' => 'Register stage template on Jio DLT to deliver live SMS.',
+                ],
+            ];
+        }
+
+        return $this->send(
+            to: $phone,
+            body: $message,
+            templateId: $templateId,
+            user: $name,
+            registerNo: $applicationNo
+        );
+    }
+
+    /**
      * Extract trace ID from JioCX SMS response.
      */
     protected function extractTraceId(array|string $body): ?string
